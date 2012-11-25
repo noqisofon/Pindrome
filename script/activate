@@ -1,0 +1,2 @@
+#!/bin/zsh
+env CUDDLEFISH_ROOT=/opt/addon-sdk PYTHONPATH=/opt/addon-sdk/python-lib python2 ./activate.py
