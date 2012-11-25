@@ -1,2 +1,12 @@
 #!/bin/zsh
-env CUDDLEFISH_ROOT=/opt/addon-sdk PYTHONPATH=/opt/addon-sdk/python-lib python2 ./activate.py
+
+# Addon SDK 用コマンドへのパスです。
+export ADDON_SDK=/opt/addon-sdk/bin
+export CUDDLEFISH_ROOT=/opt/addon-sdk
+export PYTHONPATH=/opt/addon-sdk/python-lib
+
+export PATH="$PATH:$ADDON_SDK"
+
+#env CUDDLEFISH_ROOT=/opt/addon-sdk PYTHONPATH=/opt/addon-sdk/python-lib python2 ./script/activate.py
+
+python2 ./script/activate.py
