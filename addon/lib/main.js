@@ -1,6 +1,15 @@
+//   
+// コンテキスト・メニュー用モジュール。
+// 
 var ContextMenu = require( 'context-menu' );
+// 
+// ローカルディレクトリ操作用モジュール。
+// 
 var self = require( 'self' );
-var ss = require( 'single-storage' );
+// 
+// シンプルストレージモジュール。
+// 
+var ss = require( 'simple-storage' );
 
 
 /*
@@ -9,23 +18,32 @@ var ss = require( 'single-storage' );
 ss.storage.imageList = [];
 
 
-/*
- * 「ぴんどる」のコンテキストメニューを作成します。
+/**
+ * OverQuota イベントのハンドラです。
+ * シンプルストレージがいっぱいになった場合、呼び出されます。
  */
-context_item = ContextMenu.Item( {
-    label: "ぴんどる",
-    context: ContextMenu.SelectorContext( 'img' ),
-    contentScriptFile: self.data.url( 'pindrome-context-item.js' ),
-    onMessage: function () {
-        console.log( "in message" );
-    }
+ss.on( 'OverQuota', function () {
+    console.log( "in OverQuoata" );
 } );
 
 
 /*
- * get-data イベントのハンドラです。
+ * 「ぴんどる」のコンテキストメニューアイテムを作成します。
  */
-context_item.port.on( 'get-data', function (node_src) {
-    console.log( "in get-data: node_src: " + node_src );
-    ss.storage.imageList.push( node_src );
+pinddrome_context_item = ContextMenu.Item( {
+    label: "ぴんどる",
+    // img 要素上でコンテキストメニュー
+    context: ContextMenu.SelectorContext( 'img' ),
+    // ../data/pindrome-context-item.js
+    contentScriptFile: self.data.url( 'pindrome-context-item.js' ),
+    // 
+    // self.postMessage() が呼ばれた時に呼び出されます。
+    // コンテキスト・メニュー・アイテムに port がないので、あっち側では
+    // postMessage() を呼び出して port.emit() の代わり
+    // 
+    onMessage: function (node_src) {
+        console.log( "in message: " + node_src );
+        ss.storage.imageList.push( node_src );
+        console.log( "quota usage: " + ss.quotaUsage );
+    }
 } );
