@@ -1,3 +1,4 @@
+# -*- mode: ruby; coding: utf-8; -*-
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.12'
@@ -36,3 +37,15 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-doc'
+end
+
+gem 'i18n_generators'
+
+gem 'haml-rails'
+gem 'coffee-filter'
+
+gem 'twitter-bootstrap-rails'
